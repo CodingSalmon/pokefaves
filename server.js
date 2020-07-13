@@ -7,7 +7,8 @@ require('dotenv').config();
 require('./config/database');
 
 const userRouter = require('./routes/users');
-const cors = require('cors');
+const cors = require('cors')
+
 
 app.use(cors());
 app.use(logger('dev'));
