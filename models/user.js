@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const Schema = mongoose.Schema;
 const SALT_ROUNDS = 6;
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     name: String,
     email: String,
     favPokes: {
@@ -26,7 +25,16 @@ const userSchema = new Schema({
         steel: String,
         water: String
     }
+}, {
+    timestamps:true
 });
+
+userSchema.set('toJSON', {
+    transform: function(doc, ret) {
+      delete ret.password;
+      return ret;
+    }
+  });
 
 userSchema.pre('save', function(next) {
     const user = this;
@@ -38,4 +46,8 @@ userSchema.pre('save', function(next) {
     });
 });
 
-module.exports = models.model('User', userSchema);
+userSchema.methods.comparePassword = function(tryPassword, cb) {
+    bcrypt.compare(tryPassword, this.password, cb);
+  };
+
+module.exports = mongoose.model('User', userSchema);
