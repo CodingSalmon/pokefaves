@@ -28,7 +28,8 @@ class PokemonPage extends Component {
                         <span>
                             {this.state.pokemon.types.map((type) =>
                                 <div style={{textTransform: 'capitalize'}}>{type.type.name}</div>
-                            )}
+                                )
+                            }
                         </span>
                         <span>Height:</span>
                         <span>{this.state.pokemon.height}</span>
@@ -38,21 +39,27 @@ class PokemonPage extends Component {
                         <span>
                             {this.state.pokemon.abilities.map((ability) =>
                                 <div style={{textTransform: 'capitalize'}}>{ability.ability.name}</div>
-                                )}
+                                )
+                            }
                         </span>
-                        <span>HP:</span>
+                        <span>Base HP:</span>
                         <span>{this.state.pokemon.stats[5].base_stat}</span>
-                        <span>Attack:</span>
+                        <span>Base Attack:</span>
                         <span>{this.state.pokemon.stats[4].base_stat}</span>
-                        <span>Defense:</span>
+                        <span>Base Defense:</span>
                         <span>{this.state.pokemon.stats[3].base_stat}</span>
-                        <span>Special-Attack:</span>
+                        <span>Base Special-Attack:</span>
                         <span>{this.state.pokemon.stats[2].base_stat}</span>
-                        <span>Special-Defense:</span>
+                        <span>Base Special-Defense:</span>
                         <span>{this.state.pokemon.stats[1].base_stat}</span>
-                        <span>Speed:</span>
+                        <span>Base Speed:</span>
                         <span>{this.state.pokemon.stats[0].base_stat}</span>
                         <Link to='/'>Back to Index</Link>
+                        <span className='favs'>
+                            {this.state.pokemon.types.map((type) =>
+                                <Link to='/' className='fav'>Make your favorite {type.type.name} pokemon</Link>
+                            )}
+                        </span>
                     </div>
                 </>
                 :

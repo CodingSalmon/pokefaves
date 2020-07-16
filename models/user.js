@@ -7,6 +7,24 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: {type: String, required: true, lowercase: true, unique: true},
   password: String,
+  favBug: Number,
+  favDark: Number,
+  favDragon: Number,
+  favElectric: Number,
+  favFairy: Number,
+  favFighting: Number,
+  favFire: Number,
+  favFlying: Number,
+  favGhost: Number,
+  favGrass: Number,
+  favGround: Number,
+  favIce: Number,
+  favNormal: Number,
+  favPoison: Number,
+  favPsychic: Number,
+  favRock: Number,
+  favSteel: Number,
+  favWater: Number
 }, {
   timestamps: true
 });

@@ -1,6 +1,6 @@
 .PokemonPage {
     display: grid;
-    justify-content: center;
+    justify-items: center;
     align-items: center;
     font-size: 20px;
 }
@@ -14,8 +14,21 @@
     grid-gap: 20px;
     background-color: yellow;
     color: black;
+    width:80vw;
 }
 
 .PokemonPage a {
     color: red;
+    border:2px black solid;
+    border-radius:5px;
+    height:36px;
+}
+
+.favs {
+    display:flex;
+    flex-direction: column;
+}
+
+.fav {
+    margin-bottom: 5px;
 }

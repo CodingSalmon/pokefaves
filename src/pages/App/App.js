@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Link } from 'react-router-dom'
 import './App.css';
-import NavBar from '../../components/NavBar/NavBar';
-import LoginPage from '../LoginPage/LoginPage';
-import SignupPage from '../SignupPage/SignupPage';
 import userService from '../../services/userService';
 import {getAllPokemon, getPokemonDetails, getKantoPokemon, getJohtoPokemon, getHoennPokemon, getSinnohPokemon, getUnovaPokemon, getKalosPokemon, getAlolaPokemon} from '../../services/pokemon-api';
+import NavBar from '../../components/NavBar/NavBar';
+import Footer from '../../components/Footer/Footer';
+import LoginPage from '../LoginPage/LoginPage';
+import SignupPage from '../SignupPage/SignupPage';
 import PokemonPage from '../PokemonPage/PokemonPage';
 
 class App extends Component {
@@ -60,6 +61,10 @@ class App extends Component {
     }
   };
 
+  handleChange = e => {
+    this.setState({filter: e.target.value})
+  }
+
   async componentDidMount() {
     const pokemon = await getAllPokemon();
     this.setState({pokemon: pokemon.results});
@@ -67,6 +72,7 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.switchFilter(this.state.filter);
   }
 
   handleLogout = () => {
@@ -91,10 +97,10 @@ class App extends Component {
 
         <Route exact path='/' render={({history}) =>
           <>
-            <form onSubmit={() => this.switchFilter(this.state.filter)}>
+            <form onSubmit={this.handleSubmit}>
               <label>
                 Filter:
-                <select value={this.state.filter}>
+                <select value={this.state.filter} onChange={this.handleChange}>
                   <option value='all'>All Pokemon</option>
                   <option value='kanto'>Kanto Pokemon</option>
                   <option value='johto'>Johto Pokemon</option>
@@ -141,7 +147,7 @@ class App extends Component {
             handleSignupOrLogin={this.handleSignupOrLogin}
           />
         }/>
-        
+        <Footer />
       </>
     );
   }
