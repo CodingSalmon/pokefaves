@@ -113,10 +113,10 @@ class App extends Component {
             </form>
             
             <section>
-              {this.state.pokemon.map((pokemon, idx) => 
+              {this.state.pokemon.map((pokemon) => 
                 <Link
                   key={pokemon.name}
-                  to={`/pokemon/${idx + 1}`}
+                  to={`/pokemon/${pokemon.name}`}
                   className='pokemonCard'
                   style={{textTransform:'capitalize'}}
                 >

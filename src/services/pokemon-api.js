@@ -5,8 +5,8 @@ export function getAllPokemon() {
     .then(res => res.json());
 }
 
-export function getPokemonDetails(idx) {
-    return fetch(`${BASE_URL}${idx}`, {mode:'cors'})
+export function getPokemonDetails(pokemonName) {
+    return fetch(`${BASE_URL}${pokemonName}`, {mode:'cors'})
     .then(res => res.json());
 }
 

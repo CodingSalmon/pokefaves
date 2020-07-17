@@ -79,7 +79,7 @@ form select {
   display: grid;
   align-items: center;
   margin: 50px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
 }
 
@@ -141,4 +141,14 @@ form select {
   font-feature-settings: "liga";
 }
 
+@media (min-width:800px) {
+  .App section {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 
+@media (min-width:1000px) {
+  .App section {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
