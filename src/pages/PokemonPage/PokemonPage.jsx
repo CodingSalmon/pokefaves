@@ -9,7 +9,7 @@ class PokemonPage extends Component {
     }
 
     async componentDidMount() {
-        const pokemon = await getPokemonDetails(this.props.match.params.idx)
+        const pokemon = await getPokemonDetails(this.props.match.params.pokemonName)
         this.setState({pokemon: pokemon})
     }
 

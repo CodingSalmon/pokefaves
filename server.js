@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const path = require('path');
+const favicon = require('serve-favicon');
 const logger = require('morgan');
 const port = process.env.PORT || 3001;
 
@@ -8,7 +10,13 @@ require('./config/database');
 
 const userRouter = require('./routes/users');
 const commentRouter = require('./routes/comments');
-const cors = require('cors')
+const cors = require('cors');
+
+app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+})
 
 app.use(cors());
 app.use(logger('dev'));

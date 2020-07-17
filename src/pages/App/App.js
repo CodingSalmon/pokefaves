@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Route, Redirect, Link } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 import './App.css';
 import userService from '../../services/userService';
-import {getAllPokemon, getPokemonDetails, getKantoPokemon, getJohtoPokemon, getHoennPokemon, getSinnohPokemon, getUnovaPokemon, getKalosPokemon, getAlolaPokemon} from '../../services/pokemon-api';
+import {getAllPokemon, getKantoPokemon, getJohtoPokemon, getHoennPokemon, getSinnohPokemon, getUnovaPokemon, getKalosPokemon, getAlolaPokemon} from '../../services/pokemon-api';
 import NavBar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
 import LoginPage from '../LoginPage/LoginPage';
@@ -56,6 +56,9 @@ class App extends Component {
       case 'alola': {
         const pokemon = await getAlolaPokemon(); 
         this.setState({pokemon: pokemon.results})
+        break;
+      }
+      default: {
         break;
       }
     }
