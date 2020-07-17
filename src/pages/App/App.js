@@ -86,7 +86,7 @@ class App extends Component {
 
   render () {
     return (
-      <>
+      <div className='App'>
         <Route path='/'render={({history}) =>
           <NavBar 
             history={history}
@@ -96,22 +96,20 @@ class App extends Component {
         }/>
 
         <Route exact path='/' render={({history}) =>
-          <>
+          <div className='displayArea'>
             <form onSubmit={this.handleSubmit}>
-              <label>
-                Filter:
-                <select value={this.state.filter} onChange={this.handleChange}>
-                  <option value='all'>All Pokemon</option>
-                  <option value='kanto'>Kanto Pokemon</option>
-                  <option value='johto'>Johto Pokemon</option>
-                  <option value='hoenn'>Hoenn Pokemon</option>
-                  <option value='sinnoh'>Sinnoh Pokemon</option>
-                  <option value='unova'>Unova Pokemon</option>
-                  <option value='kalos'>Kalos Pokemon</option>
-                  <option value='alola'>Alola Pokemon</option>
-                </select>
-              </label>
-              <input type='submit' value='Submit'/>
+              <div>Filter:</div>
+              <select value={this.state.filter} onChange={this.handleChange}>
+                <option value='all'>All Pokemon</option>
+                <option value='kanto'>Kanto Pokemon</option>
+                <option value='johto'>Johto Pokemon</option>
+                <option value='hoenn'>Hoenn Pokemon</option>
+                <option value='sinnoh'>Sinnoh Pokemon</option>
+                <option value='unova'>Unova Pokemon</option>
+                <option value='kalos'>Kalos Pokemon</option>
+                <option value='alola'>Alola Pokemon</option>
+              </select>
+              <input type='submit' value='Submit' className='btn'/>
             </form>
             
             <section>
@@ -120,12 +118,13 @@ class App extends Component {
                   key={pokemon.name}
                   to={`/pokemon/${idx + 1}`}
                   className='pokemonCard'
+                  style={{textTransform:'capitalize'}}
                 >
                   {pokemon.name}
                 </Link>
               )}
             </section>
-          </>
+          </div>
         }/>
 
         <Route exact path='/pokemon/:idx' render={(props) =>
@@ -148,7 +147,7 @@ class App extends Component {
           />
         }/>
         <Footer />
-      </>
+      </div>
     );
   }
 }

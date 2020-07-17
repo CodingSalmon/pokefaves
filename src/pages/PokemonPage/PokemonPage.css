@@ -18,10 +18,15 @@
 }
 
 .PokemonPage a {
-    color: red;
+    color: black;
+    background:orange;
     border:2px black solid;
     border-radius:5px;
     height:36px;
+}
+
+.PokemonPage a:hover {
+    opacity: .8;
 }
 
 .favs {

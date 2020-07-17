@@ -5,7 +5,8 @@ const SECRET = process.env.SECRET;
 
 module.exports = {
   signup,
-  login
+  login,
+  show
 };
 
 
@@ -45,4 +46,9 @@ function createJWT(user) {
     SECRET,
     {expiresIn: '24h'}
   );
+}
+
+function show(req, res) {
+  User.findById(req.params.id)
+  .then(res => res.json())
 }

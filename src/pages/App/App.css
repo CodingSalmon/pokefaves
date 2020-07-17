@@ -33,13 +33,6 @@ body {
   color: #61dafb;
 }
 
-.App section {
-  display: grid;
-  margin: 50px;
-  grid-template-columns: repeat(6, 1fr);
-  grid-gap: 20px;
-}
-
 .nav {
   width: 100%;
 }
@@ -55,9 +48,39 @@ body {
   left:10px;
 }
 
+.displayArea {
+  display:flex;
+  justify-content:center;
+  flex-direction: column;
+}
+
+form {
+  display:flex;
+  margin-top: 20px;
+  align-items:center;
+  justify-content: flex-end;
+}
+
 form select {
   display:block;
   width:100px;
+}
+
+.btn {
+  margin-left:5px;
+  background-color: rgb(243,168,59);
+}
+
+.btn:hover {
+  background-color: rgb(233, 148, 39);
+}
+
+.App section {
+  display: grid;
+  align-items: center;
+  margin: 50px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
 }
 
 .pokemonCard {
