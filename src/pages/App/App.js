@@ -130,8 +130,8 @@ class App extends Component {
           </div>
         }/>
 
-        <Route exact path='/pokemon/:idx' render={(props) =>
-          <PokemonPage 
+        <Route exact path='/pokemon/:pokemonName' render={(props) =>
+          <PokemonPage
             {...props}
           />
         }/>
