@@ -14,8 +14,8 @@ class PokemonPage extends Component {
 
     async componentDidMount() {
         const pokemon = await getPokemonDetails(this.props.match.params.pokemonName)
-        // const comments = getComments();
         this.setState({pokemon: pokemon});
+        const comments = await getComments();
     }
 
     handleComment = e => {
@@ -24,7 +24,7 @@ class PokemonPage extends Component {
 
     addComment = (e) => {
         e.preventDefault();
-        const comment = createComment(this.state.futureComment)
+        const comment = createComment(this.state.futureComment, this.state.pokemon.name)
         this.setState({comments:[...this.state.comments, comment]});
     }
 
@@ -79,11 +79,11 @@ class PokemonPage extends Component {
                         </div>
                         <div className='commentArea'>
                             
-                            <form onSubmit={this.addComment}>
+                            {/* <form onSubmit={this.addComment}>
                                 <h3>Add Comment</h3>
                                 <input type="text" onChange={this.handleComment} placeholder='Your text here'></input>
                                 <input type="submit" className='btn'/>
-                            </form>
+                            </form> */}
                                 
                             {/* {this.state.comments.filter({pokemonName:this.state.pokemon.name}).map((comment) => 
                                 <div className='comment'>

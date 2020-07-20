@@ -5,8 +5,8 @@ export function getComments() {
     .then(res => res.json());
 };
 
-export function createComment(comment) {
-    return fetch(BASE_URL, {
+export function createComment(comment, pokemonName) {
+    return fetch(`${BASE_URL}${pokemonName}`, {
         method:'POST',
         headers: {'content-type': 'application/json'},
         body: JSON.stringify(comment)
