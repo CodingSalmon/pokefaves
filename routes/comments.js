@@ -2,14 +2,13 @@ const express = require('express');
 const router = express.Router();
 const commentsCtrl = require('../controllers/comments');
 
-router.post('/', function(req, res) {
-    commentsCtrl.create
-});
+router.get('/', commentsCtrl.getAll);
 
-router.delete('/:id', function(req, res) {
-    commentsCtrl.deleteOne
-});
 router.use(require('../config/auth'));
+
+router.post('/', commentsCtrl.create);
+
+router.delete('/:id', commentsCtrl.deleteOne);
 
 function checkAuth(req, res, next) {
     if (req.user) return next();

@@ -149,6 +149,7 @@ class App extends Component {
             handleSignupOrLogin={this.handleSignupOrLogin}
           />
         }/>
+        
         <Footer />
       </div>
     );

@@ -37,3 +37,8 @@
 .fav {
     margin-bottom: 5px;
 }
+
+.commentArea {
+    display:grid;
+    
+}

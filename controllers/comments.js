@@ -1,9 +1,16 @@
 const Comment = require('../models/comment');
 
-module.exports = [
+module.exports = {
+    getAll,
     create,
     deleteOne
-];
+};
+
+function getAll(req, res) {
+    Comment.find({})
+    .then(comments => {res.json(comments)})
+    .catch(err => {res.json(err)});
+};
 
 function create(req, res) {
     // req.body.postedBy = req.user.id

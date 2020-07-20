@@ -2,15 +2,19 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import './PokemonPage.css';
 import {getPokemonDetails} from '../../services/pokemon-api'
+import {getComments} from '../../services/comment-api';
 
 class PokemonPage extends Component {
     state = {
-        pokemon: []
+        pokemon: [],
+        comments: []
     }
 
     async componentDidMount() {
         const pokemon = await getPokemonDetails(this.props.match.params.pokemonName)
-        this.setState({pokemon: pokemon})
+        // const comments = await getComments();
+        this.setState({pokemon: pokemon});
+        // this.setState({comments: comments});
     }
 
     render() {
@@ -26,8 +30,8 @@ class PokemonPage extends Component {
                         <span style={{textTransform: 'capitalize'}}>{this.state.pokemon.name}</span>
                         <span>Type(s):</span>
                         <span>
-                            {this.state.pokemon.types.map((type) =>
-                                <div style={{textTransform: 'capitalize'}}>{type.type.name}</div>
+                            {this.state.pokemon.types.map((type, idx) =>
+                                <div key={idx} style={{textTransform: 'capitalize'}}>{type.type.name}</div>
                                 )
                             }
                         </span>
@@ -37,8 +41,8 @@ class PokemonPage extends Component {
                         <span>{this.state.pokemon.weight}</span>
                         <span>Abilities:</span>
                         <span>
-                            {this.state.pokemon.abilities.map((ability) =>
-                                <div style={{textTransform: 'capitalize'}}>{ability.ability.name}</div>
+                            {this.state.pokemon.abilities.map((ability, idx) =>
+                                <div key={idx} style={{textTransform: 'capitalize'}}>{ability.ability.name}</div>
                                 )
                             }
                         </span>
@@ -56,10 +60,16 @@ class PokemonPage extends Component {
                         <span>{this.state.pokemon.stats[0].base_stat}</span>
                         <Link to='/'>Back to Index</Link>
                         <span className='favs'>
-                            {this.state.pokemon.types.map((type) =>
-                                <Link to='/' className='fav'>Make your favorite {type.type.name} pokemon</Link>
+                            {this.state.pokemon.types.map((type, idx) =>
+                                <Link to='/' key={idx} className='fav'>Make your favorite {type.type.name} pokemon</Link>
                             )}
                         </span>
+                    </div>
+                    <div className='commentArea'>
+                        <span>Comment:</span>
+                        <span>{}</span>
+                        <span>Posted By:</span>
+                        <span>{}</span>
                     </div>
                 </>
                 :
