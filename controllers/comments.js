@@ -7,10 +7,9 @@ module.exports = {
 };
 
 function getAll(req, res) {
-    console.log('we are here')
     Comment.find({})
     .then(comments => {res.json(comments)})
-    .catch(err => {res.json(err)});
+    .catch(err => console.log(err));
 };
 
 function create(req, res) {

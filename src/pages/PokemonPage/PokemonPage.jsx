@@ -2,30 +2,40 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import './PokemonPage.css';
 import {getPokemonDetails} from '../../services/pokemon-api'
-import {getComments, createComment} from '../../services/comment-api';
+import {getComments, createComment, deleteComment} from '../../services/comment-api';
 
 class PokemonPage extends Component {
 
     state = {
         pokemon: [],
         comments: [],
-        futureComment: ''
+        formData: {
+            msg:''
+        }
     }
 
     async componentDidMount() {
         const pokemon = await getPokemonDetails(this.props.match.params.pokemonName)
-        this.setState({pokemon: pokemon});
         const comments = await getComments();
+        this.setState({pokemon, comments});
     }
 
     handleComment = e => {
-        this.setState({futureComment: e.target.value})
+        const formData = {...this.state.formData, [e.target.name]:e.target.value}
+        this.setState({formData})
     }
 
-    addComment = (e) => {
+    addComment = async (e) => {
         e.preventDefault();
-        const comment = createComment(this.state.futureComment, this.state.pokemon.name)
+        const comment = await createComment(this.state.formData, this.state.pokemon.name)
         this.setState({comments:[...this.state.comments, comment]});
+    }
+
+    async deleteComment(id){
+        await deleteComment(id);
+        this.setState(state => ({
+            comments: state.comments.filter(comment => comment._id !== id)
+        }),() => this.props.history.push(`/pokemon/${this.state.pokemon.name}`))
     }
 
     render() {
@@ -79,22 +89,22 @@ class PokemonPage extends Component {
                         </div>
                         <div className='commentArea'>
                             
-                            {/* <form onSubmit={this.addComment}>
+                            <form onSubmit={this.addComment}>
                                 <h3>Add Comment</h3>
-                                <input type="text" onChange={this.handleComment} placeholder='Your text here'></input>
+                                <input type="text" name='msg' onChange={this.handleComment} placeholder='Your text here'></input>
                                 <input type="submit" className='btn'/>
-                            </form> */}
+                            </form>
                                 
-                            {/* {this.state.comments.filter({pokemonName:this.state.pokemon.name}).map((comment) => 
-                                <div className='comment'>
+                            {this.state.comments.filter(comment => comment.pokemonName === this.state.pokemon.name).map((comment, idx) => 
+                                <div className='comment' key={idx}>
                                     <span>Comment:</span>
                                     <span>{comment.msg}</span>
                                     <span>Posted By:</span>
                                     <span>{comment.postedBy}</span>
                                     <span></span>
-                                    
+                                    <input type="submit" className='btn' onClick={() => this.deleteComment(comment._id)}/>
                                 </div>
-                            )} */}
+                            )}
 
                         </div>
                     </div>

@@ -8,7 +8,6 @@ router.post('/login', usersCtrl.login);
 router.get('/user/:id', usersCtrl.show);
 
 /*---------- Protected Routes ----------*/
-router.use(require('../config/auth'));
 
 /*---------- Auth Checker ----------*/
 function checkAuth(req, res, next) {
