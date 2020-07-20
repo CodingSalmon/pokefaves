@@ -54,25 +54,33 @@ body {
   flex-direction: column;
 }
 
-form {
+.filter {
   display:flex;
   margin-top: 20px;
+  margin-right:10px;
   align-items:center;
   justify-content: flex-end;
 }
 
-form select {
+.filter select {
   display:block;
   width:100px;
 }
 
 .btn {
-  margin-left:5px;
+  color:black;
   background-color: rgb(243,168,59);
+  margin-left:5px;
+  border:2px black solid;
+  border-radius:5px;
 }
 
 .btn:hover {
   background-color: rgb(233, 148, 39);
+}
+
+.btn:focus {
+  background-color: rgb(243,168,59);
 }
 
 .App section {

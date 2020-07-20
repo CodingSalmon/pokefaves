@@ -4,9 +4,10 @@ const commentsCtrl = require('../controllers/comments');
 
 router.get('/', commentsCtrl.getAll);
 
+router.post('/:pokemonName', commentsCtrl.create);
+
 router.use(require('../config/auth'));
 
-router.post('/', commentsCtrl.create);
 
 router.delete('/:id', commentsCtrl.deleteOne);
 

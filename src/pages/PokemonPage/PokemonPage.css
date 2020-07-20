@@ -14,7 +14,6 @@
     grid-gap: 20px;
     background-color: yellow;
     color: black;
-    width:80vw;
 }
 
 .PokemonPage a {
@@ -40,5 +39,18 @@
 
 .commentArea {
     display:grid;
-    
+    grid-template-columns: 1fr;
+}
+
+.comment {
+    display:grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+@media (min-width:1000px) {
+    .content {
+        display:grid;
+        justify-items: center;
+        grid-template-columns: 2fr 1fr;
+    }
 }

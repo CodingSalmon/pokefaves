@@ -14,6 +14,7 @@ function getAll(req, res) {
 
 function create(req, res) {
     // req.body.postedBy = req.user.id
+    req.body.pokemonName = req.params.pokemonName
     Comment.create(req.body)
     .then(comment => {res.json(comment)})
     .catch(err => {res.json(err)});

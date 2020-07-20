@@ -7,7 +7,6 @@ const commentSchema = new mongoose.Schema({
     },
     // postedBy: String,
     pokemonName: String
-    
 }, {
     timestamps:true
 })
