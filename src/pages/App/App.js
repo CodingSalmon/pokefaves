@@ -137,6 +137,7 @@ class App extends Component {
             <Route exact path='/pokemon/:pokemonName' render={(props) =>
               <PokemonPage
                 {...props}
+                user={this.state.user}
               />
             }/>
 

@@ -6,7 +6,7 @@ const commentSchema = new mongoose.Schema({
         max_length: 20
     },
     // postedBy: String,
-    pokemonName: String
+    pokemonName: mongoose.Schema.Types.ObjectId
 }, {
     timestamps:true
 })

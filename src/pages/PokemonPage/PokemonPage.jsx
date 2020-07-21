@@ -15,6 +15,7 @@ class PokemonPage extends Component {
     }
 
     async componentDidMount() {
+        console.log(this.props.user)
         const pokemon = await getPokemonDetails(this.props.match.params.pokemonName)
         const comments = await getComments();
         this.setState({pokemon, comments});
@@ -81,19 +82,22 @@ class PokemonPage extends Component {
                             <span>Base Speed:</span>
                             <span>{this.state.pokemon.stats[0].base_stat}</span>
                             <Link to='/'>Back to Index</Link>
-                            <span className='favs'>
-                                {this.state.pokemon.types.map((type, idx) =>
-                                    <Link to='/' key={idx} className='fav'>Make your favorite {type.type.name} pokemon</Link>
-                                )}
-                            </span>
+                            {this.props.user ? 
+                                <span className='favs'>
+                                    {this.state.pokemon.types.map((type, idx) =>
+                                        <Link to='/' key={idx} className='fav'>Make your favorite {type.type.name} pokemon</Link>
+                                    )}
+                                </span>
+                            :''}
                         </div>
                         <div className='commentArea'>
-                            
-                            <form onSubmit={this.addComment}>
-                                <h3>Add Comment</h3>
-                                <input type="text" name='msg' onChange={this.handleComment} placeholder='Your text here'></input>
-                                <input type="submit" className='btn'/>
-                            </form>
+                            {this.props.user ? 
+                                <form onSubmit={this.addComment}>
+                                    <h3>Add Comment</h3>
+                                    <input type="text" name='msg' onChange={this.handleComment} placeholder='Your text here'></input>
+                                    <input type="submit" className='btn'/>
+                                </form>
+                            : ''}
                                 
                             {this.state.comments.filter(comment => comment.pokemonName === this.state.pokemon.name).map((comment, idx) => 
                                 <div className='comment' key={idx}>

@@ -6,11 +6,9 @@ router.get('/', commentsCtrl.getAll);
 
 router.use(require('../config/auth'));
 
-router.post('/:pokemonName', commentsCtrl.create);
+router.post('/:pokemonName', checkAuth, commentsCtrl.create);
 
-
-
-router.delete('/:id', commentsCtrl.deleteOne);
+router.delete('/:id', checkAuth, commentsCtrl.deleteOne);
 
 function checkAuth(req, res, next) {
     if (req.user) return next();
