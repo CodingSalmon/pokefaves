@@ -10,15 +10,15 @@ class PokemonPage extends Component {
         pokemon: [],
         comments: [],
         formData: {
-            msg:''
+            msg:'',
+            pokemonName:''
         }
     }
 
     async componentDidMount() {
-        console.log(this.props.user)
         const pokemon = await getPokemonDetails(this.props.match.params.pokemonName)
         const comments = await getComments();
-        this.setState({pokemon, comments});
+        this.setState({pokemon, comments, formData:{pokemonName:pokemon.name}});
     }
 
     handleComment = e => {

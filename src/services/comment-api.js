@@ -5,12 +5,12 @@ export function getComments() {
     .then(res => res.json());
 };
 
-export function createComment(formData, pokemonName) {
+export function createComment(formData) {
     console.log(formData)
-    return fetch(`${BASE_URL}${pokemonName}`, {
+    return fetch(`${BASE_URL}${formData.pokemonName}`, {
         method:'POST',
         headers: {'content-type': 'application/json'},
-        body: JSON.stringify(formData)
+        body: JSON.stringify({msg: formData.msg})
     }, {mode:'cors'})
     .then(res => res.json());
 };

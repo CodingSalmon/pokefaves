@@ -6,7 +6,7 @@ router.get('/', commentsCtrl.getAll);
 
 router.use(require('../config/auth'));
 
-router.post('/:pokemonName', checkAuth, commentsCtrl.create);
+router.post('/:pokemonName', commentsCtrl.create);
 
 router.delete('/:id', checkAuth, commentsCtrl.deleteOne);
 

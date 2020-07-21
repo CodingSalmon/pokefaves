@@ -34,19 +34,17 @@ class LoginPage extends Component {
     return (
       <div className="LoginPage">
         <h3>Log In</h3>
-        <form className="col s12" autocomplete="off" onSubmit={this.handleSubmit} >
+        <form className="col s12" autoComplete="off" onSubmit={this.handleSubmit} >
           <div className="row">
             <div className="input-field col s12">
-              <input type="text" autocomplete="off" id="email" className="active" value={this.state.email} name="email" onChange={this.handleChange} />
+              <input type="text" autoComplete="off" id="email" className="active" value={this.state.email} name="email" onChange={this.handleChange} />
               <label htmlFor="email">Email</label>
-
             </div>
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <input type="password" autocomplete="off" className="active" id="password" value={this.state.pw} name="pw" onChange={this.handleChange} />
+              <input type="password" autoComplete="off" className="active" id="password" value={this.state.pw} name="pw" onChange={this.handleChange} />
               <label htmlFor="password">Password</label>
-
             </div>
           </div>
           <div className="row">
