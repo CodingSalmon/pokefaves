@@ -7,6 +7,7 @@
   
 .PokemonPage-details {
     padding: 20px;
+    border:2px grey solid;
     border-radius: 5px;
     text-align: center;
     display: grid;
@@ -42,15 +43,33 @@
     grid-template-columns: 1fr;
 }
 
+.commentForm {
+    background-color:yellow;
+    border:2px grey solid;
+    border-radius:5px;
+    padding:10px;
+    margin-top:20px;
+}
+
 .comment {
     display:grid;
     grid-template-columns: 1fr 2fr;
+    background-color:yellow;
+    border:2px grey solid;
+    border-radius:5px;
+    padding:10px;
+    margin-top:20px;
 }
 
 @media (min-width:1000px) {
     .content {
         display:grid;
         justify-items: center;
+        justify-content: space-around;
         grid-template-columns: 2fr 1fr;
+    }
+
+    .commentForm {
+        margin-top:0;
     }
 }

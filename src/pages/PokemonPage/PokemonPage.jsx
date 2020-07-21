@@ -21,14 +21,18 @@ class PokemonPage extends Component {
         this.setState({pokemon, comments, formData:{pokemonName:pokemon.name}});
     }
 
-    handleComment = e => {
+    handleChange = e => {
         const formData = {...this.state.formData, [e.target.name]:e.target.value}
         this.setState({formData})
     }
 
+    addFavoriteType(type) {
+        this.props.user[type] = this.state.pokemon.name;
+    }
+
     addComment = async (e) => {
         e.preventDefault();
-        const comment = await createComment(this.state.formData, this.state.pokemon.name)
+        const comment = await createComment(this.state.formData)
         this.setState({comments:[...this.state.comments, comment]});
     }
 
@@ -43,7 +47,7 @@ class PokemonPage extends Component {
         return (
             <div className='PokemonPage'>
                 {this.state.pokemon.name ?
-                <>
+                <div>
                     <div className='PokemonPage-image'>
                         <span><img height="250" src={this.state.pokemon.sprites.front_default} alt=""/></span>
                     </div>
@@ -85,34 +89,39 @@ class PokemonPage extends Component {
                             {this.props.user ? 
                                 <span className='favs'>
                                     {this.state.pokemon.types.map((type, idx) =>
-                                        <Link to='/' key={idx} className='fav'>Make your favorite {type.type.name} pokemon</Link>
+                                        <Link to='/' key={idx} className='fav' onClick={() => this.addFavoriteType(type.type.name)}>Make your favorite {type.type.name} pokemon</Link>
                                     )}
                                 </span>
                             :''}
                         </div>
                         <div className='commentArea'>
                             {this.props.user ? 
-                                <form onSubmit={this.addComment}>
-                                    <h3>Add Comment</h3>
-                                    <input type="text" name='msg' onChange={this.handleComment} placeholder='Your text here'></input>
+                                <form className='commentForm' onSubmit={this.addComment}>
+                                    <h4>Add Comment</h4>
+                                    <input type="text" name='msg' onChange={this.handleChange} placeholder='Your text here'></input>
                                     <input type="submit" className='btn'/>
                                 </form>
                             : ''}
-                                
-                            {this.state.comments.filter(comment => comment.pokemonName === this.state.pokemon.name).map((comment, idx) => 
-                                <div className='comment' key={idx}>
-                                    <span>Comment:</span>
-                                    <span>{comment.msg}</span>
-                                    <span>Posted By:</span>
-                                    <span>{comment.postedBy}</span>
-                                    <span></span>
-                                    <input type="submit" className='btn' onClick={() => this.deleteComment(comment._id)}/>
-                                </div>
-                            )}
-
+                            
+                            <h3>Comments</h3>
+                            {this.state.comments !== [] ? 
+                                this.state.comments.filter(comment => comment.pokemonName === this.state.pokemon.name).map((comment, idx) => 
+                                    <div className='comment' key={idx}>
+                                        <span>Comment:</span>
+                                        <span>{comment.msg}</span>
+                                        <span>Posted By:</span>
+                                        <span>{comment.posterName}</span>
+                                        <span></span>
+                                        {this.props.user && this.props.user._id === comment.postedBy ?
+                                            <input type="submit" value='DELETE' className='btn' onClick={() => this.deleteComment(comment._id)}/>
+                                        :''}
+                                    </div>
+                                )
+                                : <h4>No Comments Yet</h4>
+                            }
                         </div>
                     </div>
-                </>
+                </div>
                 :
                 <h3>Loading...</h3>
                 }

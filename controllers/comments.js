@@ -13,9 +13,8 @@ function getAll(req, res) {
 };
 
 function create(req, res) {
-    // req.body.postedBy = req.user._id;
-    req.body.pokemonName = req.params.pokemonName;
-    console.log(req.body)
+    req.body.postedBy = req.user._id;
+    req.body.posterName = req.user.name;
     Comment.create(req.body)
     .then(comment => {res.json(comment)})
     .catch(err => console.log(err));

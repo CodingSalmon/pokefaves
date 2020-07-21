@@ -1,3 +1,4 @@
+import tokenService from '../services/tokenService';
 const BASE_URL = '/api/comments/';
 
 export function getComments() {
@@ -6,18 +7,18 @@ export function getComments() {
 };
 
 export function createComment(formData) {
-    console.log(formData)
     return fetch(`${BASE_URL}${formData.pokemonName}`, {
         method:'POST',
-        headers: {'content-type': 'application/json'},
-        body: JSON.stringify({msg: formData.msg})
+        headers: {'content-type': 'application/json', 'Authorization': 'Bearer ' + tokenService.getToken()},
+        body: JSON.stringify(formData)
     }, {mode:'cors'})
     .then(res => res.json());
 };
 
 export function deleteComment(id) {
     return fetch(`${BASE_URL}${id}`, {
-        method:'DELETE'
+        method:'DELETE',
+        headers: {'content-type': 'application/json', 'Authorization': 'Bearer ' + tokenService.getToken()}
     }, {mode:'cors'})
     .then(res => res.json());
 };
