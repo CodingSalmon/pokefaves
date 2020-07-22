@@ -4,7 +4,7 @@
 
 ![Main Page]()
 
-![Pokemon Detail Page]()
+![Pokemon Detail Page](https://imgur.com/hmwlcrB)
 
 ![Profile Page]()
 
