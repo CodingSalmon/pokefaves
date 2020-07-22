@@ -2,11 +2,9 @@
 
 ## Screenshots
 
-![Main Page]()
+![Main Page](https://i.imgur.com/UGgRXe2.png)
 
-![Pokemon Detail Page](https://imgur.com/hmwlcrB)
-
-![Profile Page]()
+![Pokemon Detail Page](https://i.imgur.com/tBrxQDn.png)
 
 ## Technologies Used
 
