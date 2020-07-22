@@ -24,4 +24,5 @@
 
 ## Next Steps
 
-1. Add search functionality
+1. Finish favoriting feature
+2. Add search functionality
