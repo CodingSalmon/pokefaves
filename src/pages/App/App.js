@@ -65,7 +65,7 @@ class App extends Component {
     }
   };
 
-  handleChange = e => {
+  handleFilterChange = e => {
     this.setState({filter: e.target.value})
   }
 
@@ -105,7 +105,7 @@ class App extends Component {
               <div className='displayArea'>
                 <form className='filter' onSubmit={this.handleSubmit}>
                   <div>Filter:</div>
-                  <select value={this.state.filter} onChange={this.handleChange}>
+                  <select value={this.state.filter} onChange={this.handleFilterChange}>
                     <option value='all'>All Pokemon</option>
                     <option value='kanto'>Kanto Pokemon</option>
                     <option value='johto'>Johto Pokemon</option>
