@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom'
 import './App.css';
 import userService from '../../services/userService';
-import {getAllPokemon, getKantoPokemon, getJohtoPokemon, getHoennPokemon, getSinnohPokemon, getUnovaPokemon, getKalosPokemon, getAlolaPokemon} from '../../services/pokemon-api';
+import { getAllPokemon } from '../../services/pokemon-api';
 import NavBar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
 import LoginPage from '../LoginPage/LoginPage';
@@ -13,50 +13,49 @@ class App extends Component {
   state = {
     user: userService.getUser(),
     filter: 'all',
+    filteredPokemon: [],
     pokemon: []
   }
 
   async switchFilter(filter) {
-    this.setState({pokemon: []})
     switch (filter) {
-      case 'all': {
-        const pokemon = await getAllPokemon(); 
-        this.setState({pokemon: pokemon.results})
+      case 'all': { 
+        this.setState({filteredPokemon: this.state.pokemon})
         break;
       }
       case 'kanto': {
-        const pokemon = await getKantoPokemon(); 
-        this.setState({pokemon: pokemon.results})
+        const filteredPokemon = this.state.pokemon.slice(0,151); 
+        this.setState({filteredPokemon})
         break;
       }
       case 'johto': {
-        const pokemon = await getJohtoPokemon(); 
-        this.setState({pokemon: pokemon.results})
+        const filteredPokemon = this.state.pokemon.slice(151,251); 
+        this.setState({filteredPokemon})
         break;
       }
       case 'hoenn': {
-        const pokemon = await getHoennPokemon(); 
-        this.setState({pokemon: pokemon.results})
+        const filteredPokemon = this.state.pokemon.slice(252,386); 
+        this.setState({filteredPokemon})
         break;
       }
       case 'sinnoh': {
-        const pokemon = await getSinnohPokemon(); 
-        this.setState({pokemon: pokemon.results})
+        const filteredPokemon = this.state.pokemon.slice(386,493); 
+        this.setState({filteredPokemon})
         break;
       }
       case 'unova': {
-        const pokemon = await getUnovaPokemon(); 
-        this.setState({pokemon: pokemon.results})
+        const filteredPokemon = this.state.pokemon.slice(493,649); 
+        this.setState({filteredPokemon})
         break;
       }
       case 'kalos': {
-        const pokemon = await getKalosPokemon(); 
-        this.setState({pokemon: pokemon.results})
+        const filteredPokemon = this.state.pokemon.slice(649,721); 
+        this.setState({filteredPokemon})
         break;
       }
       case 'alola': {
-        const pokemon = await getAlolaPokemon(); 
-        this.setState({pokemon: pokemon.results})
+        const filteredPokemon = this.state.pokemon.slice(721,807); 
+        this.setState({filteredPokemon})
         break;
       }
       default: {
@@ -71,7 +70,7 @@ class App extends Component {
 
   async componentDidMount() {
     const pokemon = await getAllPokemon();
-    this.setState({pokemon: pokemon.results});
+    this.setState({pokemon: pokemon.results, filteredPokemon: pokemon.results});
   }
 
   handleSubmit = (e) => {
@@ -119,7 +118,7 @@ class App extends Component {
                 </form>
                 
                 <section>
-                  {this.state.pokemon.map((pokemon) => 
+                  {this.state.filteredPokemon.map((pokemon) => 
                     <Link
                       key={pokemon.name}
                       to={`/pokemon/${pokemon.name}`}
