@@ -5,11 +5,12 @@ import './PokemonPage.css';
 
 import { getPokemonDetails } from '../../services/pokemon-api'
 import { getComments, createComment, deleteComment } from '../../services/comment-api';
-import userServices from '../../services/userService'
+import userService from '../../services/userService'
 
 class PokemonPage extends Component {
 
     state = {
+        user: userService.getUser(),
         pokemon: [],
         comments: [],
         formData: {
@@ -30,17 +31,20 @@ class PokemonPage extends Component {
     }
 
     async handleFavorite(type) {
-        if(this.props.user[`${type}`] !== this.state.pokemon.name){
-            this.props.user[`${type}`] = this.state.pokemon.name;
-            await userServices.favoritePokemon(this.state.user.id, this.state.pokemon.name);
+        if(this.state.user[`${type}`] !== this.state.pokemon.name){
+            this.state.user[`${type}`] = this.state.pokemon.name;
+            const user = await userService.favoritePokemon(this.state.user.id, this.state.pokemon.name);
+            this.setState({user})
         } else {
-            this.props.user[`${type}`] = undefined;
+            this.state.user[`${type}`] = undefined;
         }
     }
 
     addComment = async (e) => {
         e.preventDefault();
-        const comment = await createComment(this.state.formData)
+        const comment = await createComment(this.state.formData);
+        const form = document.querySelector('form')
+        form.reset();
         this.setState({comments:[...this.state.comments, comment], formData: {msg:''}});
     }
 
@@ -95,11 +99,11 @@ class PokemonPage extends Component {
                             <span>Base Speed:</span>
                             <span>{this.state.pokemon.stats[0].base_stat}</span>
                             <Link to='/'>Back to Index</Link>
-                            {this.props.user ? 
+                            {this.state.user ? 
                                 <span className='favs'>
                                     {this.state.pokemon.types.map((type, idx) =>
                                         <Link to='/' key={idx} className='fav' onClick={() => this.handleFavorite(type.type.name)}>
-                                            {(this.props.user[`${type.type.name}`] !== this.state.pokemon.name) ? `Make your favorite ${type.type.name} pokemon`: `Get rid of my favorite ${type.type.name} pokemon`}
+                                            {(this.state.user[`${type.type.name}`] !== this.state.pokemon.name) ? `Make your favorite ${type.type.name} pokemon`: `Get rid of my favorite ${type.type.name} pokemon`}
                                         </Link>
                                     )}
                                 </span>
@@ -107,7 +111,7 @@ class PokemonPage extends Component {
                         </div>
 
                         <div className='commentArea'>
-                            {this.props.user ? 
+                            {this.state.user ? 
                                 <form className='commentForm' onSubmit={this.addComment}>
                                     <h4>Add Comment</h4>
                                     <input type="text" name='msg' onChange={this.handleChange} placeholder='Your text here'></input>
@@ -124,7 +128,7 @@ class PokemonPage extends Component {
                                         <span>Posted By:</span>
                                         <span>{comment.posterName}</span>
                                         <span></span>
-                                        {this.props.user && this.props.user._id === comment.postedBy ?
+                                        {this.state.user && this.state.user._id === comment.postedBy ?
                                             <input type="submit" value='DELETE' className='btn' onClick={() => this.deleteComment(comment._id)}/>
                                         :''}
                                     </div>
