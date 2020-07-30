@@ -6,10 +6,9 @@ const SECRET = process.env.SECRET;
 module.exports = {
   signup,
   login,
-  show
+  show,
+  favorite
 };
-
-
 
 async function signup(req, res) {
   const user = new User(req.body);
@@ -49,5 +48,10 @@ function createJWT(user) {
 
 function show(req, res) {
   User.findById(req.params.id)
-  .then(res => res.json())
+  .then(res => res.json());
+}
+
+function favorite(req, res) {
+  User.findByIdAndUpdate(req.params.id, req.params.pokemonName)
+  .then(res => res.json());
 }

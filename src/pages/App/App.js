@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom'
+
 import './App.css';
+
 import userService from '../../services/userService';
 import { getAllPokemon } from '../../services/pokemon-api';
+
 import NavBar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
 import LoginPage from '../LoginPage/LoginPage';
@@ -66,40 +69,41 @@ class App extends Component {
 
   handleFilterChange = e => {
     this.setState({filter: e.target.value})
-  }
+  };
 
   async componentDidMount() {
     const pokemon = await getAllPokemon();
     this.setState({pokemon: pokemon.results, filteredPokemon: pokemon.results});
-  }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.switchFilter(this.state.filter);
-  }
+  };
 
   handleLogout = () => {
     userService.logout();
     this.setState({ user: null });
-  }
+  };
 
   handleSignupOrLogin = () => {
     this.setState({user: userService.getUser()});
-  }
+  };
 
   render () {
     return (
       <div className='App'>
+        <Route path='/'render={({history}) =>
+          <NavBar 
+            history={history}
+            user={this.state.user}
+            handleLogout={this.handleLogout}
+          />
+        }/>
+
+        <main>
         {this.state.pokemon ? 
           <>
-            <Route path='/'render={({history}) =>
-              <NavBar 
-                history={history}
-                user={this.state.user}
-                handleLogout={this.handleLogout}
-              />
-            }/>
-
             <Route exact path='/' render={({history}) =>
               <div className='displayArea'>
                 <form className='filter' onSubmit={this.handleSubmit}>
@@ -154,13 +158,14 @@ class App extends Component {
               />
             }/>
           </>
-        :
+          :
           <h3>Loading...</h3>
         }
+        </main>
         <Footer />
       </div>
     );
-  }
-}
+  };
+};
 
 export default App;

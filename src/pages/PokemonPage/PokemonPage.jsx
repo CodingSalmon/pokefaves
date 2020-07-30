@@ -1,8 +1,11 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import './PokemonPage.css';
-import {getPokemonDetails} from '../../services/pokemon-api'
-import {getComments, createComment, deleteComment} from '../../services/comment-api';
+
+import { getPokemonDetails } from '../../services/pokemon-api'
+import { getComments, createComment, deleteComment } from '../../services/comment-api';
+import userServices from '../../services/userService'
 
 class PokemonPage extends Component {
 
@@ -26,9 +29,10 @@ class PokemonPage extends Component {
         this.setState({formData})
     }
 
-    handleFavorite(type) {
+    async handleFavorite(type) {
         if(this.props.user[`${type}`] !== this.state.pokemon.name){
             this.props.user[`${type}`] = this.state.pokemon.name;
+            await userServices.favoritePokemon(this.state.user.id, this.state.pokemon.name);
         } else {
             this.props.user[`${type}`] = undefined;
         }
@@ -68,9 +72,9 @@ class PokemonPage extends Component {
                                 }
                             </span>
                             <span>Height:</span>
-                            <span>{this.state.pokemon.height}</span>
+                            <span>{Math.floor(this.state.pokemon.height / 3.048)} ft. {Math.ceil(12 * (this.state.pokemon.height / 3.048 - Math.floor(this.state.pokemon.height / 3.048)))} in.</span>
                             <span>Weight:</span>
-                            <span>{this.state.pokemon.weight}</span>
+                            <span>{Math.ceil(this.state.pokemon.weight / 4.536)} lbs.</span>
                             <span>Abilities:</span>
                             <span>
                                 {this.state.pokemon.abilities.map((ability, idx) =>

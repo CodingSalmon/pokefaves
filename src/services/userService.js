@@ -41,9 +41,18 @@ function login(creds) {
   .then(({token}) => tokenService.setToken(token));
 }
 
+function favoritePokemon(id, pokemonName) {
+  return fetch(`${BASE_URL}${id}/${pokemonName}`, {
+      method: 'POST',
+      headers: {'content-type': 'application/json', 'Authorization': 'Bearer ' + tokenService.getToken()}
+  }, {mode: 'cors'})
+  .then(res => res.json());
+}
+
 export default {
   signup,
   getUser,
   logout,
-  login
+  login,
+  favoritePokemon
 };
