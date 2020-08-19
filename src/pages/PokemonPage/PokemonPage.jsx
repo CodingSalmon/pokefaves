@@ -33,7 +33,7 @@ class PokemonPage extends Component {
     async handleFavorite(type) {
         if(this.state.user[`${type}`] !== this.state.pokemon.name){
             this.state.user[`${type}`] = this.state.pokemon.name;
-            const user = await userService.favoritePokemon(this.state.user.id, this.state.pokemon.name);
+            const user = await userService.favoritePokemon(this.state.user._id, type, this.state.pokemon.name);
             this.setState({user})
         } else {
             this.state.user[`${type}`] = undefined;
@@ -98,13 +98,13 @@ class PokemonPage extends Component {
                             <span>{this.state.pokemon.stats[1].base_stat}</span>
                             <span>Base Speed:</span>
                             <span>{this.state.pokemon.stats[0].base_stat}</span>
-                            <Link to='/'>Back to Index</Link>
+                            <Link to='/' className='btn'>Back to Index</Link>
                             {this.state.user ? 
                                 <span className='favs'>
                                     {this.state.pokemon.types.map((type, idx) =>
-                                        <Link to='/' key={idx} className='fav' onClick={() => this.handleFavorite(type.type.name)}>
+                                        <button key={idx} className='fav btn' onClick={() => this.handleFavorite(type.type.name)}>
                                             {(this.state.user[`${type.type.name}`] !== this.state.pokemon.name) ? `Make your favorite ${type.type.name} pokemon`: `Get rid of my favorite ${type.type.name} pokemon`}
-                                        </Link>
+                                        </button>
                                     )}
                                 </span>
                             :''}

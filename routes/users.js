@@ -8,7 +8,7 @@ router.get('/user/:id', usersCtrl.show);
 
 router.use(require('../config/auth'));
 
-router.post('/user/:id/:pokemonName', checkAuth, usersCtrl.favorite);
+router.put('/:id/:type/:pokemonName', checkAuth, usersCtrl.favorite);
 
 function checkAuth(req, res, next) {
     if (req.user) return next();

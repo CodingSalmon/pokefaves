@@ -102,66 +102,67 @@ class App extends Component {
         }/>
 
         <main>
-        {this.state.pokemon ? 
-          <>
-            <Route exact path='/' render={({history}) =>
-              <div className='displayArea'>
-                <form className='filter' onSubmit={this.handleSubmit}>
-                  <div>Filter:</div>
-                  <select value={this.state.filter} onChange={this.handleFilterChange}>
-                    <option value='all'>All Pokemon</option>
-                    <option value='kanto'>Kanto Pokemon</option>
-                    <option value='johto'>Johto Pokemon</option>
-                    <option value='hoenn'>Hoenn Pokemon</option>
-                    <option value='sinnoh'>Sinnoh Pokemon</option>
-                    <option value='unova'>Unova Pokemon</option>
-                    <option value='kalos'>Kalos Pokemon</option>
-                    <option value='alola'>Alola Pokemon</option>
-                  </select>
-                  <input type='submit' value='Submit' className='btn'/>
-                </form>
-                
-                <section>
-                  {this.state.filteredPokemon.map((pokemon) => 
-                    <Link
-                      key={pokemon.name}
-                      to={`/pokemon/${pokemon.name}`}
-                      className='pokemonCard'
-                      style={{textTransform:'capitalize'}}
-                      user={this.state.user}
-                    >
-                      {pokemon.name}
-                    </Link>
-                  )}
-                </section>
-              </div>
-            }/>
+          {this.state.pokemon ? 
+            <>
+              <Route exact path='/' render={({history}) =>
+                <div className='displayArea'>
+                  <form className='filter' onSubmit={this.handleSubmit}>
+                    <div>Filter:</div>
+                    <select value={this.state.filter} onChange={this.handleFilterChange}>
+                      <option value='all'>All Pokemon</option>
+                      <option value='kanto'>Kanto Pokemon</option>
+                      <option value='johto'>Johto Pokemon</option>
+                      <option value='hoenn'>Hoenn Pokemon</option>
+                      <option value='sinnoh'>Sinnoh Pokemon</option>
+                      <option value='unova'>Unova Pokemon</option>
+                      <option value='kalos'>Kalos Pokemon</option>
+                      <option value='alola'>Alola Pokemon</option>
+                    </select>
+                    <input type='submit' value='Submit' className='btn'/>
+                  </form>
+                  
+                  <section>
+                    {this.state.filteredPokemon.map((pokemon) => 
+                      <Link
+                        key={pokemon.name}
+                        to={`/pokemon/${pokemon.name}`}
+                        className='pokemonCard'
+                        style={{textTransform:'capitalize'}}
+                        user={this.state.user}
+                      >
+                        {pokemon.name}
+                      </Link>
+                    )}
+                  </section>
+                </div>
+              }/>
 
-            <Route exact path='/pokemon/:pokemonName' render={(props) =>
-              <PokemonPage
-                {...props}
-                user={this.state.user}
-              />
-            }/>
+              <Route exact path='/pokemon/:pokemonName' render={(props) =>
+                <PokemonPage
+                  {...props}
+                  user={this.state.user}
+                />
+              }/>
 
-            <Route exact path='/signup' render={({ history }) => 
-              <SignupPage
-                history={history}
-                handleSignupOrLogin={this.handleSignupOrLogin}
-              />
-            }/>
+              <Route exact path='/signup' render={({ history }) => 
+                <SignupPage
+                  history={history}
+                  handleSignupOrLogin={this.handleSignupOrLogin}
+                />
+              }/>
 
-            <Route exact path='/login' render={({ history }) => 
-              <LoginPage
-                history={history}
-                handleSignupOrLogin={this.handleSignupOrLogin}
-              />
-            }/>
-          </>
-          :
-          <h3>Loading...</h3>
-        }
+              <Route exact path='/login' render={({ history }) => 
+                <LoginPage
+                  history={history}
+                  handleSignupOrLogin={this.handleSignupOrLogin}
+                />
+              }/>
+            </>
+            :
+            <h3>Loading...</h3>
+          }
         </main>
+        
         <Footer />
       </div>
     );

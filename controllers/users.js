@@ -52,6 +52,6 @@ function show(req, res) {
 }
 
 function favorite(req, res) {
-  User.findByIdAndUpdate(req.params.id, req.params.pokemonName)
+  User.findByIdAndUpdate(req.params.id, {[req.params.type]: req.params.pokemonName}, {new:true})
   .then(res => res.json());
 }
