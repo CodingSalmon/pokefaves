@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   text-align: center;
+  min-height:100vh;
 }
 
 body {
@@ -143,6 +144,10 @@ main {
 
   /* Support for IE. */
   font-feature-settings: "liga";
+}
+
+main {
+  flex-grow: 1;
 }
 
 @media (min-width:800px) {
