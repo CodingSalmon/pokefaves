@@ -7,7 +7,8 @@ module.exports = {
   signup,
   login,
   show,
-  favorite
+  favorite,
+  unFavorite
 };
 
 async function signup(req, res) {
@@ -48,10 +49,16 @@ function createJWT(user) {
 
 function show(req, res) {
   User.findById(req.params.id)
-  .then(res => res.json());
+  .then(user => res.json(user))
+  .catch(err => res.json(err))
 }
 
 function favorite(req, res) {
-  User.findByIdAndUpdate(req.params.id, {[req.params.type]: req.params.pokemonName}, {new:true})
-  .then(res => res.json());
+  User.findByIdAndUpdate(req.params.id, req.body, {new:true})
+  .then(newUser => res.json(newUser))
+}
+
+function unFavorite(req, res) {
+  User.findByIdAndUpdate(req.params.id, req.body, {new:true})
+  .then(newUser => res.json(newUser))
 }

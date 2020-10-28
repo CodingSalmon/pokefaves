@@ -11,6 +11,7 @@ import Footer from '../../components/Footer/Footer';
 import LoginPage from '../LoginPage/LoginPage';
 import SignupPage from '../SignupPage/SignupPage';
 import PokemonPage from '../PokemonPage/PokemonPage';
+import UserPage from '../UserPage/UserPage';
 
 class App extends Component {
   state = {
@@ -155,6 +156,14 @@ class App extends Component {
                 <LoginPage
                   history={history}
                   handleSignupOrLogin={this.handleSignupOrLogin}
+                />
+              }/>
+
+              <Route exact path='/user/:id' render={({ history }) => 
+                <UserPage
+                  history={history}
+                  user={this.state.user}
+                  pokemon={this.state.pokemon}
                 />
               }/>
             </>

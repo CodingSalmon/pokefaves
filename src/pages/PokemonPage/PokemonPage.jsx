@@ -11,7 +11,7 @@ class PokemonPage extends Component {
 
     state = {
         user: userService.getUser(),
-        pokemon: [],
+        pokemon: {},
         comments: [],
         formData: {
             msg:'',
@@ -20,9 +20,10 @@ class PokemonPage extends Component {
     }
 
     async componentDidMount() {
+        const user = await userService.getUserById(this.state.user._id)
         const pokemon = await getPokemonDetails(this.props.match.params.pokemonName)
         const comments = await getComments();
-        this.setState({pokemon, comments, formData:{pokemonName:pokemon.name}});
+        this.setState({user, pokemon, comments, formData:{pokemonName:pokemon.name}});
     }
 
     handleChange = e => {
@@ -31,12 +32,14 @@ class PokemonPage extends Component {
     }
 
     async handleFavorite(type) {
-        if(this.state.user[`${type}`] !== this.state.pokemon.name){
-            this.state.user[`${type}`] = this.state.pokemon.name;
-            const user = await userService.favoritePokemon(this.state.user._id, type, this.state.pokemon.name);
-            this.setState({user})
+        if(this.state.user.favorites[`${type}`] !== this.state.pokemon.name){
+            this.state.user.favorites[`${type}`] = this.state.pokemon.name;
+            const userF = await userService.favoritePokemon(this.state.user, type, this.state.pokemon.name);
+            this.setState({user: userF})
         } else {
-            this.state.user[`${type}`] = undefined;
+            this.state.user.favorites[`${type}`] = ''
+            const userU = await userService.unFavoritePokemon(this.state.user, type, this.state.pokemon.name);
+            this.setState({user: userU})
         }
     }
 
@@ -103,7 +106,7 @@ class PokemonPage extends Component {
                                 <span className='favs'>
                                     {this.state.pokemon.types.map((type, idx) =>
                                         <button key={idx} className='fav btn' onClick={() => this.handleFavorite(type.type.name)}>
-                                            {(this.state.user[`${type.type.name}`] !== this.state.pokemon.name) ? `Make your favorite ${type.type.name} pokemon`: `Get rid of my favorite ${type.type.name} pokemon`}
+                                            {(this.state.user.favorites[`${type.type.name}`] !== this.state.pokemon.name) ? `Make your favorite ${type.type.name} pokemon`: `Get rid of my favorite ${type.type.name} pokemon`}
                                         </button>
                                     )}
                                 </span>

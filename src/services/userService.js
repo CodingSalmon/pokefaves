@@ -11,16 +11,18 @@ function signup(user) {
     if (res.ok) return res.json();
     throw new Error('Email already taken!');
   })
-  // Parameter destructuring!
   .then(({ token }) => {
     tokenService.setToken(token);
   });
-  // the above could have been written as
-  //.then((token) => token.token);
 }
 
 function getUser() {
   return tokenService.getUserFromToken();
+}
+
+function getUserById(id) {
+  return fetch(BASE_URL + id)
+  .then(res => res.json())
 }
 
 function logout() {
@@ -34,17 +36,26 @@ function login(creds) {
     body: JSON.stringify(creds)
   })
   .then(res => {
-    // Valid login if we have a status of 2xx (res.ok)
     if (res.ok) return res.json();
     throw new Error('Bad Credentials!');
   })
   .then(({token}) => tokenService.setToken(token));
 }
 
-function favoritePokemon(id, type, pokemonName) {
-  return fetch(`${BASE_URL}${id}/${type}/${pokemonName}`, {
-      method: 'PUT',
-      headers: {'content-type': 'application/json', 'Authorization': 'Bearer ' + tokenService.getToken()}
+function favoritePokemon(user, type, pokemonName) {
+  return fetch(`${BASE_URL}${user._id}/${type}/${pokemonName}`, {
+    method: 'PUT',
+    headers: {'content-type': 'application/json', 'Authorization': 'Bearer ' + tokenService.getToken()},
+    body: JSON.stringify(user)
+  }, {mode: 'cors'})
+  .then(res => res.json());
+}
+
+function unFavoritePokemon(user, type, pokemonName) {
+  return fetch(`${BASE_URL}un/${user._id}/${type}/${pokemonName}`, {
+    method: 'PUT',
+    headers: {'content-type': 'application/json', 'Authorization': 'Bearer ' + tokenService.getToken()},
+    body: JSON.stringify(user)
   }, {mode: 'cors'})
   .then(res => res.json());
 }
@@ -52,7 +63,9 @@ function favoritePokemon(id, type, pokemonName) {
 export default {
   signup,
   getUser,
+  getUserById,
   logout,
   login,
-  favoritePokemon
+  favoritePokemon,
+  unFavoritePokemon,
 };

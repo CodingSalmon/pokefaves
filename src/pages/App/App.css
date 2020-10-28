@@ -80,6 +80,7 @@ main {
 
 .App section {
   display: grid;
+  justify-content: center;
   align-items: center;
   margin: 50px;
   grid-template-columns: repeat(2, 1fr);
