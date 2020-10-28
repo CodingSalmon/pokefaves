@@ -24,5 +24,6 @@
 
 ## Next Steps
 
-1. Finish favoriting feature
-2. Add search functionality
+- [x] Finish favoriting feature
+- [x] Add user page
+- [ ] Add search functionality
