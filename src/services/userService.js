@@ -49,7 +49,7 @@ function favoritePokemon(user, type, pokemonName) {
     body: JSON.stringify(user)
   }, {mode: 'cors'})
   .then(res => res.json());
-}
+} 
 
 function unFavoritePokemon(user, type, pokemonName) {
   return fetch(`${BASE_URL}un/${user._id}/${type}/${pokemonName}`, {
