@@ -26,4 +26,4 @@
 
 - [x] Finish favoriting feature
 - [x] Add user page
-- [ ] Add search functionality
+- [x] Add search functionality

@@ -16,6 +16,7 @@ import UserPage from '../UserPage/UserPage';
 class App extends Component {
   state = {
     user: userService.getUser(),
+    query:'',
     filter: 'all',
     filteredPokemon: [],
     pokemon: []
@@ -24,41 +25,42 @@ class App extends Component {
   async switchFilter(filter) {
     switch (filter) {
       case 'all': { 
-        this.setState({filteredPokemon: this.state.pokemon})
+        const filteredPokemon = this.state.pokemon.filter(pokemon => pokemon.name.includes(this.state.query))
+        this.setState({filteredPokemon})
         break;
       }
       case 'kanto': {
-        const filteredPokemon = this.state.pokemon.slice(0,151); 
+        const filteredPokemon = this.state.pokemon.slice(0,151).filter(pokemon => pokemon.name.includes(this.state.query)); 
         this.setState({filteredPokemon})
         break;
       }
       case 'johto': {
-        const filteredPokemon = this.state.pokemon.slice(151,251); 
+        const filteredPokemon = this.state.pokemon.slice(151,251).filter(pokemon => pokemon.name.includes(this.state.query)); 
         this.setState({filteredPokemon})
         break;
       }
       case 'hoenn': {
-        const filteredPokemon = this.state.pokemon.slice(252,386); 
+        const filteredPokemon = this.state.pokemon.slice(252,386).filter(pokemon => pokemon.name.includes(this.state.query)); 
         this.setState({filteredPokemon})
         break;
       }
       case 'sinnoh': {
-        const filteredPokemon = this.state.pokemon.slice(386,493); 
+        const filteredPokemon = this.state.pokemon.slice(386,493).filter(pokemon => pokemon.name.includes(this.state.query)); 
         this.setState({filteredPokemon})
         break;
       }
       case 'unova': {
-        const filteredPokemon = this.state.pokemon.slice(493,649); 
+        const filteredPokemon = this.state.pokemon.slice(493,649).filter(pokemon => pokemon.name.includes(this.state.query)); 
         this.setState({filteredPokemon})
         break;
       }
       case 'kalos': {
-        const filteredPokemon = this.state.pokemon.slice(649,721); 
+        const filteredPokemon = this.state.pokemon.slice(649,721).filter(pokemon => pokemon.name.includes(this.state.query)); 
         this.setState({filteredPokemon})
         break;
       }
       case 'alola': {
-        const filteredPokemon = this.state.pokemon.slice(721,807); 
+        const filteredPokemon = this.state.pokemon.slice(721,807).filter(pokemon => pokemon.name.includes(this.state.query)); 
         this.setState({filteredPokemon})
         break;
       }
@@ -67,6 +69,10 @@ class App extends Component {
       }
     }
   };
+
+  handleSearchChange = e => {
+    this.setState({query: e.target.value})
+  }
 
   handleFilterChange = e => {
     this.setState({filter: e.target.value})
@@ -108,6 +114,7 @@ class App extends Component {
               <Route exact path='/' render={({history}) =>
                 <div className='displayArea'>
                   <form className='filter' onSubmit={this.handleSubmit}>
+                    <input type='text' value={this.state.query} onChange={this.handleSearchChange}/>
                     <div>Filter:</div>
                     <select value={this.state.filter} onChange={this.handleFilterChange}>
                       <option value='all'>All Pokemon</option>
