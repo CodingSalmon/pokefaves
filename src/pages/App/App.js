@@ -40,7 +40,7 @@ class App extends Component {
         break;
       }
       case 'hoenn': {
-        const filteredPokemon = this.state.pokemon.slice(252,386).filter(pokemon => pokemon.name.includes(this.state.query)); 
+        const filteredPokemon = this.state.pokemon.slice(251,386).filter(pokemon => pokemon.name.includes(this.state.query)); 
         this.setState({filteredPokemon})
         break;
       }
