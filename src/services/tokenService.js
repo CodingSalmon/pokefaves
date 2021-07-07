@@ -1,10 +1,10 @@
 function setToken(token) {
-    if (token) {
-      localStorage.setItem('token', token);
-    } else {
-      localStorage.removeItem('token');
-    } 
-  }
+  if (token) {
+    localStorage.setItem('token', token);
+  } else {
+    localStorage.removeItem('token');
+  } 
+}
   
 function getUserFromToken () {
   const token = getToken();
@@ -29,9 +29,11 @@ function removeToken() {
     localStorage.removeItem('token');
 }
 
-export default {
-    setToken,
-    getToken,
-    getUserFromToken,
-    removeToken,
-  };
+const functions = {
+  setToken,
+  getToken,
+  getUserFromToken,
+  removeToken,
+};
+
+export default functions

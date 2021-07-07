@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Link } from 'react-router-dom'
 
 import './App.css';
@@ -13,55 +13,61 @@ import SignupPage from '../SignupPage/SignupPage';
 import PokemonPage from '../PokemonPage/PokemonPage';
 import UserPage from '../UserPage/UserPage';
 
-class App extends Component {
-  state = {
-    user: userService.getUser(),
+const App = () =>  {
+
+  const [user, setUser] = useState(null)
+  // const [query, setQuery] = useState('')
+  // const [filter, setFilter] = useState('all')
+  // const [filteredPokemon, setFilteredPokemon] = useState([])
+  // const [pokemon, setPokemon] = useState([])
+  
+  const [state, setState] = useState({
     query:'',
     filter: 'all',
     filteredPokemon: [],
     pokemon: []
-  }
+  })
 
-  async switchFilter(filter) {
+  const switchFilter = async (filter) => {
     switch (filter) {
       case 'all': { 
-        const filteredPokemon = this.state.pokemon.filter(pokemon => pokemon.name.includes(this.state.query))
-        this.setState({filteredPokemon})
+        const filteredPokemon = state.pokemon.filter(pokemon => pokemon.name.includes(state.query))
+        setState({...state, filteredPokemon})
         break;
       }
       case 'kanto': {
-        const filteredPokemon = this.state.pokemon.slice(0,151).filter(pokemon => pokemon.name.includes(this.state.query)); 
-        this.setState({filteredPokemon})
+        const filteredPokemon = state.pokemon.slice(0,151).filter(pokemon => pokemon.name.includes(state.query)); 
+        setState({...state, filteredPokemon})
         break;
       }
       case 'johto': {
-        const filteredPokemon = this.state.pokemon.slice(151,251).filter(pokemon => pokemon.name.includes(this.state.query)); 
-        this.setState({filteredPokemon})
+        const filteredPokemon = state.pokemon.slice(151,251).filter(pokemon => pokemon.name.includes(state.query)); 
+        setState({...state, filteredPokemon})
         break;
       }
       case 'hoenn': {
-        const filteredPokemon = this.state.pokemon.slice(251,386).filter(pokemon => pokemon.name.includes(this.state.query)); 
-        this.setState({filteredPokemon})
+        const filteredPokemon = state.pokemon.slice(251,386).filter(pokemon => pokemon.name.includes(state.query)); 
+        setState({...state, filteredPokemon})
         break;
       }
       case 'sinnoh': {
-        const filteredPokemon = this.state.pokemon.slice(386,493).filter(pokemon => pokemon.name.includes(this.state.query)); 
-        this.setState({filteredPokemon})
+        const filteredPokemon = state.pokemon.slice(386,493).filter(pokemon => pokemon.name.includes(state.query)); 
+        setState({...state, filteredPokemon})
         break;
       }
       case 'unova': {
-        const filteredPokemon = this.state.pokemon.slice(493,649).filter(pokemon => pokemon.name.includes(this.state.query)); 
-        this.setState({filteredPokemon})
+        const filteredPokemon = state.pokemon.slice(493,649).filter(pokemon => pokemon.name.includes(state.query)); 
+        setState({...state, filteredPokemon})
         break;
       }
       case 'kalos': {
-        const filteredPokemon = this.state.pokemon.slice(649,721).filter(pokemon => pokemon.name.includes(this.state.query)); 
-        this.setState({filteredPokemon})
+        const filteredPokemon = state.pokemon.slice(649,721).filter(pokemon => pokemon.name.includes(state.query)); 
+        setState({...state, filteredPokemon})
         break;
       }
       case 'alola': {
-        const filteredPokemon = this.state.pokemon.slice(721,807).filter(pokemon => pokemon.name.includes(this.state.query)); 
-        this.setState({filteredPokemon})
+        const filteredPokemon = state.pokemon.slice(721,807).filter(pokemon => pokemon.name.includes(state.query)); 
+        setState({...state, filteredPokemon})
         break;
       }
       default: {
@@ -70,119 +76,132 @@ class App extends Component {
     }
   };
 
-  handleSearchChange = e => {
-    this.setState({query: e.target.value})
+  useEffect(() => {
+    (async () => {
+      setUser(userService.getUser())
+      const pokemon = await getAllPokemon();
+      setState(state => ({...state, pokemon: pokemon.results, filteredPokemon: pokemon.results}));
+    })()
+  }, []);
+
+  const handleSearchChange = e => {
+    setState({...state, query: e.target.value})
   }
 
-  handleFilterChange = e => {
-    this.setState({filter: e.target.value})
+  const handleFilterChange = e => {
+    setState({...state, filter: e.target.value})
   };
 
-  async componentDidMount() {
-    const pokemon = await getAllPokemon();
-    this.setState({pokemon: pokemon.results, filteredPokemon: pokemon.results});
-  };
-
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.switchFilter(this.state.filter);
+    switchFilter(state.filter);
   };
 
-  handleLogout = () => {
+  const handleLogout = () => {
     userService.logout();
-    this.setState({ user: null });
+    setUser(null);
   };
 
-  handleSignupOrLogin = () => {
-    this.setState({user: userService.getUser()});
+  const handleSignupOrLogin = () => {
+    setUser(userService.getUser());
   };
 
-  render () {
-    return (
-      <div className='App'>
-        <Route path='/'render={({history}) =>
-          <NavBar 
-            history={history}
-            user={this.state.user}
-            handleLogout={this.handleLogout}
-          />
-        }/>
+  const handleFavorite = async (type, pokemon) => {
+    if(user.favorites[type] !== pokemon.name){
+        user.favorites[type] = pokemon.name;
+        const userF = await userService.favoritePokemon(user, type, pokemon.name);
+        setUser(userF)
+    } else {
+        user.favorites[type] = ''
+        const userU = await userService.unFavoritePokemon(user, type, pokemon.name);
+        setUser(userU)
+    }
+}
 
-        <main>
-          {this.state.pokemon ? 
-            <>
-              <Route exact path='/' render={({history}) =>
-                <div className='displayArea'>
-                  <form className='filter' onSubmit={this.handleSubmit}>
-                    <input type='text' value={this.state.query} onChange={this.handleSearchChange}/>
-                    <div>Filter:</div>
-                    <select value={this.state.filter} onChange={this.handleFilterChange}>
-                      <option value='all'>All Pokemon</option>
-                      <option value='kanto'>Kanto Pokemon</option>
-                      <option value='johto'>Johto Pokemon</option>
-                      <option value='hoenn'>Hoenn Pokemon</option>
-                      <option value='sinnoh'>Sinnoh Pokemon</option>
-                      <option value='unova'>Unova Pokemon</option>
-                      <option value='kalos'>Kalos Pokemon</option>
-                      <option value='alola'>Alola Pokemon</option>
-                    </select>
-                    <input type='submit' value='Submit' className='btn'/>
-                  </form>
-                  
-                  <section>
-                    {this.state.filteredPokemon.map((pokemon) => 
-                      <Link
-                        key={pokemon.name}
-                        to={`/pokemon/${pokemon.name}`}
-                        className='pokemonCard'
-                        style={{textTransform:'capitalize'}}
-                        user={this.state.user}
-                      >
-                        {pokemon.name}
-                      </Link>
-                    )}
-                  </section>
-                </div>
-              }/>
+  return (
+    <div className='App'>
+      <Route path='/'render={({history}) =>
+        <NavBar 
+          history={history}
+          user={user}
+          handleLogout={handleLogout}
+        />
+      }/>
 
-              <Route exact path='/pokemon/:pokemonName' render={(props) =>
-                <PokemonPage
-                  {...props}
-                  user={this.state.user}
-                />
-              }/>
+      <main>
+        {state.pokemon ? 
+          <>
+            <Route exact path='/' render={({history}) =>
+              <div className='displayArea'>
+                <form className='filter' onSubmit={handleSubmit}>
+                  <input type='text' value={state.query} onChange={handleSearchChange}/>
+                  <div>Filter:</div>
+                  <select value={state.filter} onChange={handleFilterChange}>
+                    <option value='all'>All Pokemon</option>
+                    <option value='kanto'>Kanto Pokemon</option>
+                    <option value='johto'>Johto Pokemon</option>
+                    <option value='hoenn'>Hoenn Pokemon</option>
+                    <option value='sinnoh'>Sinnoh Pokemon</option>
+                    <option value='unova'>Unova Pokemon</option>
+                    <option value='kalos'>Kalos Pokemon</option>
+                    <option value='alola'>Alola Pokemon</option>
+                  </select>
+                  <input type='submit' value='Submit' className='btn'/>
+                </form>
+                
+                <section>
+                  {state.filteredPokemon.map((pokemon) => 
+                    <Link
+                      key={pokemon.name}
+                      to={`/pokemon/${pokemon.name}`}
+                      className='pokemonCard'
+                      style={{textTransform:'capitalize'}}
+                      user={state.user}
+                    >
+                      {pokemon.name}
+                    </Link>
+                  )}
+                </section>
+              </div>
+            }/>
 
-              <Route exact path='/signup' render={({ history }) => 
-                <SignupPage
-                  history={history}
-                  handleSignupOrLogin={this.handleSignupOrLogin}
-                />
-              }/>
+            <Route exact path='/pokemon/:pokemonName' render={(props) =>
+              <PokemonPage
+                user={user}
+                handleFavorite={handleFavorite}
+              />
+            }/>
 
-              <Route exact path='/login' render={({ history }) => 
-                <LoginPage
-                  history={history}
-                  handleSignupOrLogin={this.handleSignupOrLogin}
-                />
-              }/>
+            <Route exact path='/signup' render={({ history }) => 
+              <SignupPage
+                history={history}
+                handleSignupOrLogin={handleSignupOrLogin}
+              />
+            }/>
 
-              <Route exact path='/user/:id' render={({ history }) => 
-                <UserPage
-                  history={history}
-                  user={this.state.user}
-                  pokemon={this.state.pokemon}
-                />
-              }/>
-            </>
-            :
-            <h3>Loading...</h3>
-          }
-        </main>
-        
-        <Footer />
-      </div>
-    );
-  };
+            <Route exact path='/login' render={({ history }) => 
+              <LoginPage
+                history={history}
+                handleSignupOrLogin={handleSignupOrLogin}
+              />
+            }/>
+
+            <Route exact path='/user/:id' render={({ history }) => 
+              <UserPage
+                history={history}
+                user={user}
+                pokemon={state.pokemon}
+              />
+            }/>
+          </>
+          :
+          <h3>Loading...</h3>
+        }
+      </main>
+      
+      <Footer />
+    </div>
+  );
 };
 
 export default App;

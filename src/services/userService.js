@@ -8,8 +8,11 @@ function signup(user) {
     body: JSON.stringify(user)
   })
   .then(res => {
-    if (res.ok) return res.json();
-    throw new Error('Email already taken!');
+    return res.json();
+  })
+  .then(json => {
+    if(json.token) return json;
+    throw new Error(`${json.err || json.message}`)
   })
   .then(({ token }) => {
     tokenService.setToken(token);
@@ -35,9 +38,11 @@ function login(creds) {
     headers: new Headers({'Content-Type': 'application/json'}),
     body: JSON.stringify(creds)
   })
-  .then(res => {
-    if (res.ok) return res.json();
-    throw new Error('Bad Credentials!');
+  .then(res => res.json())
+  .then(json => {
+    console.log(json)
+    if(json.token) return json;
+    throw new Error(`${json.err || json.message}`)
   })
   .then(({token}) => tokenService.setToken(token));
 }
@@ -48,7 +53,14 @@ function favoritePokemon(user, type, pokemonName) {
     headers: {'content-type': 'application/json', 'Authorization': 'Bearer ' + tokenService.getToken()},
     body: JSON.stringify(user)
   }, {mode: 'cors'})
-  .then(res => res.json());
+  .then(res => res.json())
+  .then(json => {
+    if(json.token) {
+      tokenService.setToken(json.token);
+      return json.newUser
+    }
+    throw new Error(`${json.err || json.message}`)
+  })
 } 
 
 function unFavoritePokemon(user, type, pokemonName) {
@@ -57,10 +69,17 @@ function unFavoritePokemon(user, type, pokemonName) {
     headers: {'content-type': 'application/json', 'Authorization': 'Bearer ' + tokenService.getToken()},
     body: JSON.stringify(user)
   }, {mode: 'cors'})
-  .then(res => res.json());
+  .then(res => res.json())
+  .then(json => {
+    if(json.token) {
+      tokenService.setToken(json.token);
+      return json.newUser
+    }
+    throw new Error(`${json.err || json.message}`)
+  })
 }
 
-export default {
+const functions = {
   signup,
   getUser,
   getUserById,
@@ -69,3 +88,5 @@ export default {
   favoritePokemon,
   unFavoritePokemon,
 };
+
+export default functions

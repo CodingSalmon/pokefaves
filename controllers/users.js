@@ -11,6 +11,14 @@ module.exports = {
   unFavorite
 };
 
+function createJWT(user) {
+  return jwt.sign(
+    {user},
+    SECRET,
+    {expiresIn: '24h'}
+  );
+}
+
 async function signup(req, res) {
   const user = new User(req.body);
   try {
@@ -25,8 +33,8 @@ async function signup(req, res) {
 async function login(req, res) {
   try {
     const user = await User.findOne({email: req.body.email});
-    if (!user) return res.status(401).json({err: 'bad credentials'});
-    user.comparePassword(req.body.pw, (err, isMatch) => {
+    if (!user) return res.status(401).json({err: 'Bad credentials'});
+    user.comparePassword(req.body.password, (err, isMatch) => {
       if (isMatch) {
         const token = createJWT(user);
         res.json({token});
@@ -39,14 +47,6 @@ async function login(req, res) {
   }
 }
 
-function createJWT(user) {
-  return jwt.sign(
-    {user},
-    SECRET,
-    {expiresIn: '24h'}
-  );
-}
-
 function show(req, res) {
   User.findById(req.params.id)
   .then(user => res.json(user))
@@ -55,10 +55,16 @@ function show(req, res) {
 
 function favorite(req, res) {
   User.findByIdAndUpdate(req.params.id, req.body, {new:true})
-  .then(newUser => res.json(newUser))
+  .then(newUser => {
+    const token = createJWT(newUser);
+    res.json({newUser, token})
+  })
 }
 
 function unFavorite(req, res) {
   User.findByIdAndUpdate(req.params.id, req.body, {new:true})
-  .then(newUser => res.json(newUser))
+  .then(newUser => {
+    const token = createJWT(newUser);
+    res.json({newUser, token})
+  })
 }

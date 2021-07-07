@@ -1,26 +1,16 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-import userService from '../../services/userService'
-
 import './UserPage.css'
 
 class UserPage extends Component {
 
-    state = {
-        user: userService.getUser()
-    }
-
-    async componentDidMount() {
-        const user = await userService.getUserById(this.state.user._id)
-        this.setState({user})
-    }
-
     render() {
         return(
             <>
+            {this.props.user ? 
             <section>
-                {Object.keys(this.state.user.favorites).map((type) =>
+                {Object.keys(this.props.user.favorites).map((type) =>
                     <div key={type}>
                         <p>Your favorite {type} pokemon</p>
                         <Link
@@ -28,11 +18,12 @@ class UserPage extends Component {
                             className='pokemonCard'
                             style={{textTransform:'capitalize'}}
                         >
-                            {this.state.user.favorites[type] ? this.state.user.favorites[type] : 'None'}
+                            {this.props.user.favorites[type] ? this.props.user.favorites[type] : 'None'}
                         </Link>
                     </div>
                 )}
             </section>
+            :'Loading...'}
             </>
         )
     }

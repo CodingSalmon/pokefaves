@@ -9,7 +9,6 @@ router.post('/login', usersCtrl.login);
 router.use(require('../config/auth'));
 
 router.put('/:id/:type/:pokemonName', checkAuth, usersCtrl.favorite);
-
 router.put('/un/:id/:type/:pokemonName', checkAuth, usersCtrl.unFavorite);
 
 function checkAuth(req, res, next) {

@@ -15,7 +15,7 @@ export function createComment(formData) {
     .then(res => res.json());
 };
 
-export function deleteComment(id) {
+export function removeComment(id) {
     return fetch(`${BASE_URL}${id}`, {
         method:'DELETE',
         headers: {'content-type': 'application/json', 'Authorization': 'Bearer ' + tokenService.getToken()}
