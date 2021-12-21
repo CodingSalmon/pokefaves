@@ -14,6 +14,22 @@ export function createComment(formData) {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        // prettier-ignore
+        "Authorization": "Bearer " + tokenService.getToken(),
+      },
+      body: JSON.stringify(formData),
+    },
+    { mode: "cors" }
+  ).then((res) => res.json());
+}
+
+export function updateComment(formData) {
+  return fetch(
+    `${BASE_URL}${formData.pokemonName}`,
+    {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
         Authorization: "Bearer " + tokenService.getToken(),
       },
       body: JSON.stringify(formData),
@@ -29,7 +45,8 @@ export function removeComment(id) {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
-        Authorization: "Bearer " + tokenService.getToken(),
+        // prettier-ignore
+        "Authorization": "Bearer " + tokenService.getToken(),
       },
     },
     { mode: "cors" }

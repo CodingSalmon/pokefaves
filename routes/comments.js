@@ -8,6 +8,8 @@ router.use(require("../config/auth"));
 
 router.post("/:pokemonName", checkAuth, commentsCtrl.create);
 
+router.put("/:id", checkAuth, commentsCtrl.update);
+
 router.delete("/:id", checkAuth, commentsCtrl.deleteOne);
 
 function checkAuth(req, res, next) {

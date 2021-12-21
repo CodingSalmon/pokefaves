@@ -40,6 +40,10 @@ const PokemonPage = ({ user, handleFavorite }) => {
     setFormData({ ...formData, msg: "" });
   };
 
+  const updateComment = async (e) => {
+    e.preventDefault();
+  };
+
   const deleteComment = async (id) => {
     await removeComment(id);
     setComments(comments.filter((comment) => comment._id !== id));
@@ -150,6 +154,12 @@ const PokemonPage = ({ user, handleFavorite }) => {
                     <span></span>
                     {user && user._id === comment.postedBy ? (
                       <div>
+                        <input
+                          type="submit"
+                          value="UPDATE"
+                          className="btn"
+                          onClick={() => updateComment(comment._id)}
+                        />
                         <input
                           type="submit"
                           value="DELETE"
