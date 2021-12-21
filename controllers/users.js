@@ -1,5 +1,5 @@
-const User = require('../models/user');
-const jwt = require('jsonwebtoken');
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 const SECRET = process.env.SECRET;
 
@@ -7,16 +7,11 @@ module.exports = {
   signup,
   login,
   show,
-  favorite,
-  unFavorite
+  handleFavorite,
 };
 
 function createJWT(user) {
-  return jwt.sign(
-    {user},
-    SECRET,
-    {expiresIn: '24h'}
-  );
+  return jwt.sign({ user }, SECRET, { expiresIn: "24h" });
 }
 
 async function signup(req, res) {
@@ -32,14 +27,14 @@ async function signup(req, res) {
 
 async function login(req, res) {
   try {
-    const user = await User.findOne({email: req.body.email});
-    if (!user) return res.status(401).json({err: 'Bad credentials'});
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) return res.status(401).json({ err: "Bad credentials" });
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (isMatch) {
         const token = createJWT(user);
-        res.json({token});
+        res.json({ token });
       } else {
-        return res.status(401).json({err: 'bad credentials'});
+        return res.status(401).json({ err: "bad credentials" });
       }
     });
   } catch (err) {
@@ -49,22 +44,17 @@ async function login(req, res) {
 
 function show(req, res) {
   User.findById(req.params.id)
-  .then(user => res.json(user))
-  .catch(err => res.json(err))
+    .then((user) => res.json(user))
+    .catch((err) => res.json(err));
 }
 
-function favorite(req, res) {
-  User.findByIdAndUpdate(req.params.id, req.body, {new:true})
-  .then(newUser => {
+function handleFavorite(req, res) {
+  User.findByIdAndUpdate(
+    req.user._id,
+    { favorites: req.body },
+    { new: true }
+  ).then((newUser) => {
     const token = createJWT(newUser);
-    res.json({newUser, token})
-  })
-}
-
-function unFavorite(req, res) {
-  User.findByIdAndUpdate(req.params.id, req.body, {new:true})
-  .then(newUser => {
-    const token = createJWT(newUser);
-    res.json({newUser, token})
-  })
+    res.json({ token });
+  });
 }

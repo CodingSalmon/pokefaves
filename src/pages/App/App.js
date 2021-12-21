@@ -18,13 +18,12 @@ const App = () => {
   // const [query, setQuery] = useState('')
   // const [filter, setFilter] = useState('all')
   // const [filteredPokemon, setFilteredPokemon] = useState([])
-  // const [pokemon, setPokemon] = useState([])
+  const [allPokemon, setAllPokemon] = useState([]);
 
   const [state, setState] = useState({
     query: "",
     filter: "all",
     filteredPokemon: [],
-    pokemon: [],
   });
 
   const switchFilter = async (filter) => {
@@ -95,9 +94,9 @@ const App = () => {
     (async () => {
       setUser(userService.getUser());
       const pokemon = await getAllPokemon();
+      setAllPokemon(pokemon);
       setState((state) => ({
         ...state,
-        pokemon: pokemon.results,
         filteredPokemon: pokemon.results,
       }));
     })();
@@ -126,26 +125,24 @@ const App = () => {
   };
 
   const handleFavorite = async (type, pokemon) => {
+    const newFavorites = user.favorites;
     if (user.favorites[type] !== pokemon.name) {
-      user.favorites[type] = pokemon.name;
-      const userF = await userService.favoritePokemon(user, type, pokemon.name);
-      setUser(userF);
+      newFavorites[type] = pokemon.name;
     } else {
-      user.favorites[type] = "";
-      const userU = await userService.unFavoritePokemon(
-        user,
-        type,
-        pokemon.name
-      );
-      setUser(userU);
+      newFavorites[type] = "";
     }
+    await userService.handleFavorite(newFavorites, type, pokemon.name);
+    setUser({
+      ...user,
+      favorites: newFavorites,
+    });
   };
 
   return (
     <div className="App">
       <NavBar user={user} handleLogout={handleLogout} />
       <Routes>
-        {state.pokemon ? (
+        {allPokemon ? (
           <>
             <Route
               exact
