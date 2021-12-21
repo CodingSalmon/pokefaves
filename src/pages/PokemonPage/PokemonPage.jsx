@@ -25,7 +25,7 @@ const PokemonPage = ({ user, handleFavorite }) => {
   useEffect(() => {
     (async () => {
       const pokemon = await getPokemonDetails(pokemonName);
-      const comments = await getComments();
+      const comments = await getComments(pokemonName);
       setState({ pokemon, comments, formData: { pokemonName: pokemon.name } });
     })();
   }, [pokemonName]);
@@ -156,29 +156,25 @@ const PokemonPage = ({ user, handleFavorite }) => {
 
               <h3>Comments</h3>
               {state.comments.length ? (
-                state.comments
-                  .filter(
-                    (comment) => comment.pokemonName === state.pokemon.name
-                  )
-                  .map((comment, idx) => (
-                    <div className="comment" key={idx}>
-                      <span>Comment:</span>
-                      <span>{comment.msg}</span>
-                      <span>Posted By:</span>
-                      <span>{comment.posterName}</span>
-                      <span></span>
-                      {user && user._id === comment.postedBy ? (
-                        <input
-                          type="submit"
-                          value="DELETE"
-                          className="btn"
-                          onClick={() => deleteComment(comment._id)}
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  ))
+                state.comments.map((comment, idx) => (
+                  <div className="comment" key={idx}>
+                    <span>Comment:</span>
+                    <span>{comment.msg}</span>
+                    <span>Posted By:</span>
+                    <span>{comment.posterName}</span>
+                    <span></span>
+                    {user && user._id === comment.postedBy ? (
+                      <input
+                        type="submit"
+                        value="DELETE"
+                        className="btn"
+                        onClick={() => deleteComment(comment._id)}
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                ))
               ) : (
                 <h4>No Comments Yet</h4>
               )}
