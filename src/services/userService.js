@@ -39,7 +39,6 @@ function login(creds) {
   })
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
       if (json.token) return json;
       throw new Error(`${json.err || json.message}`);
     })

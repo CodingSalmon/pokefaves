@@ -40,15 +40,13 @@ const PokemonPage = ({ user, handleFavorite }) => {
     setFormData({ ...formData, msg: "" });
   };
 
-  const updateComment = async (e) => {
-    e.preventDefault();
-  };
+  const updateComment = async (id) => {};
 
   const deleteComment = async (id) => {
     await removeComment(id);
     setComments(comments.filter((comment) => comment._id !== id));
   };
-  console.log(user, "test");
+
   return (
     <div className="PokemonPage">
       {pokemon.name ? (
