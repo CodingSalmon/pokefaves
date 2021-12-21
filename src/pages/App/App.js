@@ -29,56 +29,56 @@ const App = () => {
   const switchFilter = async (filter) => {
     switch (filter) {
       case "all": {
-        const filteredPokemon = state.pokemon.filter((pokemon) =>
+        const filteredPokemon = allPokemon.filter((pokemon) =>
           pokemon.name.includes(state.query)
         );
         setState({ ...state, filteredPokemon });
         break;
       }
       case "kanto": {
-        const filteredPokemon = state.pokemon
+        const filteredPokemon = allPokemon
           .slice(0, 151)
           .filter((pokemon) => pokemon.name.includes(state.query));
         setState({ ...state, filteredPokemon });
         break;
       }
       case "johto": {
-        const filteredPokemon = state.pokemon
+        const filteredPokemon = allPokemon
           .slice(151, 251)
           .filter((pokemon) => pokemon.name.includes(state.query));
         setState({ ...state, filteredPokemon });
         break;
       }
       case "hoenn": {
-        const filteredPokemon = state.pokemon
+        const filteredPokemon = allPokemon
           .slice(251, 386)
           .filter((pokemon) => pokemon.name.includes(state.query));
         setState({ ...state, filteredPokemon });
         break;
       }
       case "sinnoh": {
-        const filteredPokemon = state.pokemon
+        const filteredPokemon = allPokemon
           .slice(386, 493)
           .filter((pokemon) => pokemon.name.includes(state.query));
         setState({ ...state, filteredPokemon });
         break;
       }
       case "unova": {
-        const filteredPokemon = state.pokemon
+        const filteredPokemon = allPokemon
           .slice(493, 649)
           .filter((pokemon) => pokemon.name.includes(state.query));
         setState({ ...state, filteredPokemon });
         break;
       }
       case "kalos": {
-        const filteredPokemon = state.pokemon
+        const filteredPokemon = allPokemon
           .slice(649, 721)
           .filter((pokemon) => pokemon.name.includes(state.query));
         setState({ ...state, filteredPokemon });
         break;
       }
       case "alola": {
-        const filteredPokemon = state.pokemon
+        const filteredPokemon = allPokemon
           .slice(721, 807)
           .filter((pokemon) => pokemon.name.includes(state.query));
         setState({ ...state, filteredPokemon });
@@ -94,7 +94,7 @@ const App = () => {
     (async () => {
       setUser(userService.getUser());
       const pokemon = await getAllPokemon();
-      setAllPokemon(pokemon);
+      setAllPokemon(pokemon.results);
       setState((state) => ({
         ...state,
         filteredPokemon: pokemon.results,
@@ -214,7 +214,7 @@ const App = () => {
             <Route
               exact
               path="/user/:id"
-              element={<UserPage pokemon={state.pokemon} />}
+              element={<UserPage pokemon={allPokemon} />}
             />
           </>
         ) : (
