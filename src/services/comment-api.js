@@ -9,7 +9,7 @@ export function getComments(pokemonName) {
 
 export function createComment(formData) {
   return fetch(
-    `${BASE_URL}${formData.pokemonName}`,
+    `${BASE_URL}`,
     {
       method: "POST",
       headers: {

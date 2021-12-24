@@ -1,5 +1,5 @@
 import tokenService from "../services/tokenService";
-const BASE_URL = "/api/users/";
+const BASE_URL = "/users/";
 
 function signup(user) {
   return fetch(BASE_URL + "signup", {
@@ -32,11 +32,18 @@ function logout() {
 }
 
 function login(creds) {
-  return fetch(BASE_URL + "login", {
-    method: "POST",
-    headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify(creds),
-  })
+  return fetch(
+    BASE_URL + "login",
+    {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        // "Access-Control-Allow-Origin": "https://localhost:5001",
+      }),
+      body: JSON.stringify(creds),
+    }
+    // { mode: "cors" }
+  )
     .then((res) => res.json())
     .then((json) => {
       if (json.token) return json;

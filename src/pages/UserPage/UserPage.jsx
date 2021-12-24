@@ -16,7 +16,7 @@ const UserPage = (pokemon) => {
   }, [id]);
 
   return (
-    <>
+    <main>
       {user ? (
         <section>
           {Object.keys(user.favorites).map((type) => (
@@ -39,7 +39,7 @@ const UserPage = (pokemon) => {
       ) : (
         "Loading..."
       )}
-    </>
+    </main>
   );
 };
 
